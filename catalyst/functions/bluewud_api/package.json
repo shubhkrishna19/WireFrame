@@ -1,0 +1,9 @@
+{
+    "name": "bluewud_api",
+    "version": "1.0.0",
+    "description": "Bluewud E-commerce API for Zoho Catalyst",
+    "main": "index.js",
+    "dependencies": {
+        "axios": "^1.6.0"
+    }
+}

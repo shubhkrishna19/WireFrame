@@ -1,0 +1,640 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark theme search input placeholder */
+.search-input-dark::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+@layer base {
+  * {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Theme colors via CSS variables (set by ThemeContext) */
+    color: var(--theme-text-primary, #111827);
+    background-color: var(--theme-background-primary, #FFFFFF);
+    background: linear-gradient(135deg, var(--theme-background-primary, #FFFFFF) 0%, var(--theme-background-secondary, #F9FAFB) 50%, var(--theme-background-primary, #FFFFFF) 100%);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  p,
+  span,
+  div,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  li,
+  td,
+  th {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+  }
+
+  strong,
+  b {
+    font-weight: 700;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Modern Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  }
+}
+
+/* Modern Product Grid - Remove last row bottom borders */
+.product-grid>div:last-child,
+.product-grid>div:nth-last-child(-n+2):nth-child(2n),
+.product-grid>div:nth-last-child(-n+3):nth-child(3n),
+.product-grid>div:nth-last-child(-n+4):nth-child(4n),
+.product-grid>div:nth-last-child(-n+5):nth-child(5n) {
+  border-bottom: none;
+}
+
+/* Button hover animations */
+button,
+.btn {
+  transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.98);
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.6s ease-out;
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Scrolling text animation for product names */
+@keyframes scroll-text {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-50% - 20px));
+  }
+}
+
+.animate-scroll-text {
+  animation: scroll-text 12s linear infinite;
+  display: inline-block;
+  will-change: transform;
+}
+
+.animate-scroll-text:hover {
+  animation-play-state: paused;
+}
+
+/* Smooth scrolling container */
+.scroll-text-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* ========================================
+   BLUEWUD GLOBAL THEME SYSTEM
+   ======================================== */
+
+/* CSS Variables are set dynamically by ThemeContext.tsx
+   Available variables:
+   --theme-background-primary, --theme-background-secondary, --theme-background-tertiary
+   --theme-text-primary, --theme-text-secondary, --theme-text-tertiary
+   --theme-accent-primary, --theme-accent-secondary, --theme-accent-tertiary
+   --theme-border-primary, --theme-border-secondary
+   --theme-card-background, --theme-card-border
+   --theme-button-primary, --theme-button-secondary, --theme-button-hover
+   --theme-fashion-burgundy, --theme-fashion-wine, --theme-fashion-emerald
+   --theme-fashion-navy, --theme-fashion-terracotta, --theme-fashion-violet, --theme-fashion-amber
+*/
+
+/* ========================================
+   UTILITY CLASSES - Background Colors
+   ======================================== */
+.bg-primary {
+  background-color: var(--theme-background-primary);
+}
+
+.bg-secondary {
+  background-color: var(--theme-background-secondary);
+}
+
+.bg-tertiary {
+  background-color: var(--theme-background-tertiary);
+}
+
+.bg-card {
+  background-color: var(--theme-card-background);
+}
+
+/* ========================================
+   UTILITY CLASSES - Text Colors
+   ======================================== */
+.text-primary {
+  color: var(--theme-text-primary);
+}
+
+.text-secondary {
+  color: var(--theme-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--theme-text-tertiary);
+}
+
+.text-accent {
+  color: var(--theme-accent-primary);
+}
+
+/* ========================================
+   UTILITY CLASSES - Border Colors
+   ======================================== */
+.border-primary {
+  border-color: var(--theme-border-primary);
+}
+
+.border-secondary {
+  border-color: var(--theme-border-secondary);
+}
+
+.border-card {
+  border-color: var(--theme-card-border);
+}
+
+/* ========================================
+   COMPONENT CLASSES - Buttons
+   ======================================== */
+.btn {
+  @apply px-8 py-4 font-bold uppercase tracking-wide rounded-lg transition-all duration-300;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--theme-button-primary) 0%, var(--theme-button-secondary) 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--theme-button-secondary) 0%, var(--theme-button-primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--theme-text-primary);
+  border: 2px solid var(--theme-border-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--theme-background-tertiary);
+  border-color: var(--theme-accent-primary);
+}
+
+.btn-accent {
+  background-color: var(--theme-accent-primary);
+  color: #FFFFFF;
+}
+
+.btn-accent:hover {
+  background-color: var(--theme-accent-secondary);
+}
+
+/* ========================================
+   COMPONENT CLASSES - Cards
+   ======================================== */
+.card {
+  background-color: var(--theme-card-background);
+  border: 2px solid var(--theme-border-primary);
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.card-elevated {
+  @apply card;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+.card-border-accent {
+  border-color: var(--theme-accent-primary);
+}
+
+/* ========================================
+   COMPONENT CLASSES - Inputs
+   ======================================== */
+.input-primary {
+  background-color: var(--theme-background-secondary);
+  border: 2px solid var(--theme-border-primary);
+  color: var(--theme-text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.input-primary:focus {
+  outline: none;
+  border-color: var(--theme-accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-primary::placeholder {
+  color: var(--theme-text-tertiary);
+}
+
+/* ========================================
+   COMPONENT CLASSES - Links
+   ======================================== */
+.link {
+  color: var(--theme-text-secondary);
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--theme-accent-primary);
+  text-decoration: underline;
+}
+
+.link-primary {
+  color: var(--theme-accent-primary);
+  font-weight: 600;
+}
+
+.link-primary:hover {
+  color: var(--theme-accent-secondary);
+}
+
+/* ========================================
+   COMPONENT CLASSES - Badges
+   ======================================== */
+.badge {
+  @apply px-3 py-1 text-xs font-bold uppercase tracking-wider rounded;
+}
+
+.badge-new {
+  background-color: var(--theme-fashion-emerald);
+  color: #FFFFFF;
+}
+
+.badge-sale {
+  background-color: #DC2626;
+  color: #FFFFFF;
+}
+
+.badge-premium {
+  background: linear-gradient(135deg, var(--theme-fashion-violet), var(--theme-fashion-navy));
+  color: #FFFFFF;
+}
+
+.badge-stock-low {
+  background-color: var(--theme-fashion-amber);
+  color: #000000;
+}
+
+/* ========================================
+   LAYOUT PATTERNS
+   ======================================== */
+.container-primary {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.section-padding {
+  @apply py-12 md:py-16 lg:py-20;
+}
+
+.gradient-background {
+  background: linear-gradient(135deg, var(--theme-background-primary) 0%, var(--theme-background-secondary) 50%, var(--theme-background-primary) 100%);
+}
+
+/* ========================================
+   INTERACTIVE STATES
+   ======================================== */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-border-accent {
+  transition: border-color 0.2s ease;
+}
+
+.hover-border-accent:hover {
+  border-color: var(--theme-accent-primary);
+}
+
+/* ========================================
+   TYPOGRAPHY UTILITIES
+   ======================================== */
+.heading-primary {
+  @apply text-4xl lg:text-5xl font-extrabold tracking-tight;
+  color: var(--theme-text-primary);
+}
+
+.heading-secondary {
+  @apply text-3xl lg:text-4xl font-bold;
+  color: var(--theme-text-primary);
+}
+
+.heading-tertiary {
+  @apply text-2xl lg:text-3xl font-bold;
+  color: var(--theme-text-primary);
+}
+
+.body-text {
+  @apply text-base leading-relaxed;
+  color: var(--theme-text-secondary);
+}
+
+.caption {
+  @apply text-sm;
+  color: var(--theme-text-tertiary);
+}
+
+/* ========================================
+   SHADOW UTILITIES
+   ======================================== */
+.shadow-elegant {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-elegant-lg {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ========================================
+   RESPONSIVE GRID PATTERNS
+   ======================================== */
+.grid-products {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}
+
+.grid-features {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.grid-categories {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+}
+
+/* ========================================
+   BORDER RADIUS SYSTEM
+   ======================================== */
+.rounded-creative {
+  border-radius: 0.5rem;
+}
+
+.rounded-card {
+  border-radius: 0.75rem;
+}
+
+.rounded-button {
+  border-radius: 0.5rem;
+}
+
+/* ========================================
+   TRANSITION PRESETS
+   ======================================== */
+.transition-colors-fast {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.transition-all-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-transform-smooth {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   DARK MODE SCROLLBAR
+   ======================================== */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--theme-background-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--theme-border-primary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-border-secondary);
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+.skeleton {
+  background: linear-gradient(90deg,
+      var(--theme-background-secondary) 25%,
+      var(--theme-background-tertiary) 50%,
+      var(--theme-background-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  --tw-ring-color: var(--theme-accent-primary);
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}

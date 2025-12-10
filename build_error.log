@@ -1,0 +1,21 @@
+
+> mulary-app@1.0.0 build
+> tsc && vite build
+
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[32m✓[39m 605 modules transformed.
+[31mx[39m Build failed in 1m 53s
+[31merror during build:
+[31mENOSPC: no space left on device, copyfile 'C:\Users\shubh\Downloads\ecommerce-app\public\products\Book Shelves\Walten WM\SB-WA-WMW Pic3.5.jpg' -> 'C:\Users\shubh\Downloads\ecommerce-app\dist\products\Book Shelves\Walten WM\SB-WA-WMW Pic3.5.jpg'[31m
+    at Object.copyFileSync (node:fs:3105:11)
+    at copyDir (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:17098:19)
+    at copyDir (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:17096:7)
+    at copyDir (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:17096:7)
+    at copyDir (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:17096:7)
+    at prepareOutDir (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:65764:7)
+    at build (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:65711:7)
+    at async CAC.<anonymous> (file:///C:/Users/shubh/Downloads/ecommerce-app/node_modules/vite/dist/node/cli.js:829:5)[39m

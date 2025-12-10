@@ -1,0 +1,32 @@
+dist
+dist-ssr
+*.local
+node_modules
+coverage
+.DS_Store
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+bluewud_web.zip
+catalyst/client/bluewud_web/
+allproductdata/
+client/bluewud_web/
+public/images/
+
+# Convex
+.convex/
+

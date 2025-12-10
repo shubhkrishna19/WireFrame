@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://srcry.in/sitemap.xml
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /profile/
+Disallow: /cart/
+Disallow: /wishlist/
+Disallow: /order-confirmation/
+

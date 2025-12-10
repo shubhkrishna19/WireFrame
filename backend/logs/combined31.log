@@ -1,0 +1,2 @@
+{"level":"info","message":"🔍 Checking for abandoned carts...","service":"mulary-backend","timestamp":"2025-11-25 18:00:00"}
+{"level":"info","message":"✅ No abandoned carts to email","service":"mulary-backend","timestamp":"2025-11-25 18:00:00"}

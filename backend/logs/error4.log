@@ -1,0 +1,1 @@
+{"error":{"code":"SQLITE_ERROR"},"level":"error","message":"Database query error:","service":"mulary-backend","text":"INSERT INTO product_images (id, product_id, url, display_order) VALUES (?, ?, ?, ?)","timestamp":"2025-11-22 19:33:40"}

@@ -1,0 +1,1164 @@
+# CURSOR RULES - BEWAKOOF CLONE PROJECT
+## Development Standards with File Patterns
+
+**Version:** 1.0  
+**For:** Cursor AI Agent  
+**Project:** Bewakoof Clone (React + Node.js + Pocketbase)  
+**Rules Type:** Development Standards + File Patterns
+
+---
+
+# SECTION 1: TYPESCRIPT RULES
+
+## File Pattern: `**/*.ts` `**/*.tsx`
+
+You MUST follow these rules for ALL TypeScript files:
+
+### Core TypeScript Rules (STRICT - NO EXCEPTIONS)
+
+```yaml
+# tsconfig.json settings that MUST be enforced
+strict: true
+strictNullChecks: true
+noImplicitAny: true
+noImplicitThis: true
+noUnusedLocals: true
+noUnusedParameters: true
+noImplicitReturns: true
+noFallthroughCasesInSwitch: true
+
+# Enforcement Rules
+- NO `any` type anywhere - use specific types or `unknown` with guards
+- NO untyped function parameters - all must have explicit types
+- NO untyped function return values - all must have explicit types
+- NO implicit `any` - catch with noImplicitAny
+- NO unused variables - code must pass `npm run type-check`
+```
+
+### Import/Export Rules
+
+```yaml
+File Pattern: `**/*.ts` `**/*.tsx`
+
+- MUST use named exports instead of default exports
+  ❌ export default Component
+  ✅ export const Component
+
+- MUST have explicit types in imports
+  ❌ import { Component } from './Component'
+  ✅ import { Component } from './Component'
+  import type { ComponentProps } from './types'
+
+- MUST use path aliases
+  ❌ import { useCart } from '../../../hooks/useCart'
+  ✅ import { useCart } from '@/hooks/useCart'
+
+- MUST NOT have circular imports
+- MUST organize imports: React, external, internal, types
+```
+
+### Variable & Function Naming
+
+```yaml
+File Pattern: `**/*.ts` `**/*.tsx`
+
+Constants:
+  - MUST be UPPER_SNAKE_CASE
+  - MUST be at module level
+  ✅ const API_TIMEOUT = 30000
+  ❌ const apiTimeout = 30000
+
+Functions:
+  - MUST be camelCase
+  - MUST have return type annotation
+  - MUST have parameter type annotations
+  ✅ function calculateTotal(items: CartItem[]): number {}
+  ❌ function calculateTotal(items) {}
+
+Variables:
+  - MUST be camelCase
+  - MUST have explicit type annotation (or inferred from initialization)
+  ✅ const userName: string = 'John'
+  ✅ const count = 10 // inferred as number
+  ❌ const userName = 'John'
+  ❌ const count: any = 10
+
+React Components:
+  - MUST be PascalCase
+  - MUST have explicit React.FC type
+  - MUST have Props interface
+  ✅ const ProductCard: React.FC<ProductCardProps> = ({...}) => {}
+  ❌ const productCard = ({...}) => {}
+
+Hooks:
+  - MUST start with 'use'
+  - MUST be camelCase
+  - MUST have explicit return type
+  ✅ export const useCart = (): CartContextType => {}
+  ❌ export const getCart = () => {}
+
+Private/Internal:
+  - MUST start with underscore if truly private
+  ✅ const _internalHelper = () => {}
+  ❌ const internalHelper = () => {}
+```
+
+---
+
+# SECTION 2: FILE ORGANIZATION RULES
+
+## File Pattern: `frontend/src/**/*`
+
+### Directory Structure Rules
+
+```yaml
+Required Directories:
+  - components/Common     # Reusable across app
+  - components/Products   # Product-specific
+  - components/Cart       # Cart-specific
+  - components/Auth       # Authentication
+  - components/Admin      # Admin-only
+  - pages                 # Route pages
+  - hooks                 # Custom React hooks
+  - context               # React Context
+  - services              # API clients, business logic
+  - types                 # TypeScript interfaces
+  - utils                 # Helper functions
+  - constants             # App constants
+  - styles                # Global styles
+
+File Rules:
+  - Component files: PascalCase.tsx
+  - Hook files: useXxx.ts (lowercase)
+  - Service files: xxx.service.ts (lowercase)
+  - Type files: xxx.types.ts (lowercase)
+  - Utils: xxx.ts (lowercase)
+  - Test files: xxx.test.ts or xxx.spec.ts
+  - MUST NOT be more than 200 lines per file
+  - MUST NOT have multiple components in one file
+```
+
+### Frontend Component Structure
+
+```yaml
+File Pattern: `frontend/src/components/**/*.tsx`
+
+MUST follow this structure:
+
+1. Imports (React, external, internal, types)
+2. Type/Interface definitions
+3. Component function
+4. Event handlers (inside component or outside if large)
+5. JSDoc documentation
+6. Props interface
+7. Export
+
+MUST include JSDoc:
+  /**
+   * Component description
+   * @param props - Props description
+   * @returns JSX.Element
+   */
+
+Example:
+```typescript
+import React, { useState } from 'react';
+import type { Product } from '@/types/product';
+import { Button } from '@/components/Common/Button';
+
+interface ProductCardProps {
+  product: Product;
+  onAddToCart?: (product: Product) => void;
+}
+
+/**
+ * Displays a single product card with add-to-cart functionality
+ */
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onAddToCart
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = (): void => {
+    setIsLoading(true);
+    onAddToCart?.(product);
+    setIsLoading(false);
+  };
+
+  return <div>{product.name}</div>;
+};
+```
+```
+
+## File Pattern: `backend/src/**/*`
+
+### Backend Directory Structure Rules
+
+```yaml
+Required Directories:
+  - routes              # API endpoint definitions
+  - controllers         # Request handlers
+  - services            # Business logic
+  - middleware          # Express middleware
+  - types               # TypeScript interfaces
+  - utils               # Helper functions
+  - constants           # Constants
+  - config              # Configuration
+
+File Rules:
+  - Route files: xxx.routes.ts
+  - Controller files: xxx.controller.ts
+  - Service files: xxx.service.ts
+  - Middleware files: xxx.ts
+  - MUST NOT be more than 200 lines per file
+  - MUST have clear separation of concerns
+```
+
+### Backend Code Organization
+
+```yaml
+File Pattern: `backend/src/**/*.ts`
+
+MUST follow this order:
+
+1. Imports
+2. Types/Interfaces
+3. Constants
+4. Main function/class
+5. Helper functions
+6. Exports
+
+MUST include JSDoc for functions:
+  /**
+   * Description of what function does
+   * @param param - Parameter description
+   * @returns Return description
+   */
+
+Example:
+```typescript
+import express, { Router } from 'express';
+import type { Request, Response } from 'express';
+import { cartService } from '@/services/cart.service';
+
+interface AddToCartRequest extends Request {
+  body: {
+    productId: string;
+    quantity: number;
+  };
+}
+
+const CART_LIMIT = 1000;
+
+/**
+ * Adds item to user's cart
+ */
+async function addToCart(req: AddToCartRequest, res: Response): Promise<void> {
+  // Logic here
+}
+
+export const cartRoutes = Router();
+cartRoutes.post('/items', addToCart);
+```
+```
+
+---
+
+# SECTION 3: REACT COMPONENT RULES
+
+## File Pattern: `frontend/src/components/**/*.tsx` `frontend/src/pages/**/*.tsx`
+
+### Component Rules (MANDATORY)
+
+```yaml
+React Component Rules:
+  - MUST use React.FC<Props> type
+  - MUST NOT use function default export
+  - MUST have Props interface with JSDoc
+  - MUST NOT have prop drilling more than 2 levels
+  - MUST use useCallback for event handlers
+  - MUST use useMemo for expensive computations
+  - MUST handle loading states
+  - MUST handle error states
+  - MUST show empty states
+  - MUST be mobile responsive (Tailwind CSS)
+  - MUST have accessibility attributes (alt, aria-label, etc)
+
+Props Interface:
+  - MUST be named as ComponentProps
+  - MUST be exported
+  - MUST be in same file as component
+  - MUST use optional chaining (?) for optional props
+  - MUST use JSDoc for each prop
+  interface ProductCardProps {
+    /** Product to display */
+    product: Product;
+    /** Callback when add to cart clicked */
+    onAddToCart?: (product: Product) => Promise<void>;
+    /** Loading state */
+    isLoading?: boolean;
+  }
+
+State Management:
+  - MUST use useState with explicit types
+  - MUST use useContext only through custom hooks
+  - MUST NOT store data in component state if it belongs in Context
+  - const [isLoading, setIsLoading] = useState<boolean>(false);
+
+Event Handlers:
+  - MUST be wrapped in useCallback if passed to children
+  - MUST have explicit return type (usually void)
+  - MUST handle errors with try-catch
+  const handleAddToCart = useCallback(async (): Promise<void> => {
+    try {
+      // Logic
+    } catch (error) {
+      // Handle error
+    }
+  }, [dependency]);
+
+Rendering:
+  - MUST show loading skeleton while fetching
+  - MUST show error message if error state
+  - MUST show empty state if no data
+  - MUST NOT render null without reason
+  if (loading) return <ProductSkeleton />;
+  if (error) return <ErrorMessage error={error} />;
+  if (!products.length) return <EmptyState />;
+  return <ProductList products={products} />;
+```
+
+### Hook Rules
+
+## File Pattern: `frontend/src/hooks/**/*.ts`
+
+```yaml
+Hook Rules:
+  - MUST start with 'use' prefix
+  - MUST have explicit return type
+  - MUST have JSDoc documentation
+  - MUST NOT use hooks conditionally
+  - MUST NOT call other hooks conditionally
+  - MUST have dependency array if using useEffect
+  - MUST NOT have console.log in production code
+  - MUST handle errors gracefully
+
+Hook Structure:
+  /**
+   * Hook description
+   * @returns Description of return value
+   */
+  export const useProductData = (id: string): UseProductDataReturn => {
+    const [product, setProduct] = useState<Product | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+
+    useEffect(() => {
+      const fetch = async () => {
+        try {
+          const data = await fetchProduct(id);
+          setProduct(data);
+        } catch (err) {
+          setError(err as Error);
+        }
+      };
+      fetch();
+    }, [id]);
+
+    return { product, error };
+  };
+
+Hook Return Type:
+  - MUST be explicit interface
+  interface UseProductDataReturn {
+    product: Product | null;
+    error: Error | null;
+  }
+```
+
+### Context Rules
+
+## File Pattern: `frontend/src/context/**/*.tsx`
+
+```yaml
+Context Rules:
+  - MUST have explicit Context type interface
+  - MUST have Provider component that wraps children
+  - MUST export custom hook for using context
+  - MUST throw error if hook used outside provider
+  - MUST include error handling
+  - MUST include loading state
+
+Context Structure:
+  interface CartContextType {
+    items: CartItem[];
+    addItem: (product: Product) => Promise<void>;
+  }
+
+  const CartContext = createContext<CartContextType | undefined>(undefined);
+
+  export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
+    children
+  }) => {
+    // Logic
+    return (
+      <CartContext.Provider value={{ items, addItem }}>
+        {children}
+      </CartContext.Provider>
+    );
+  };
+
+  export const useCart = (): CartContextType => {
+    const context = useContext(CartContext);
+    if (!context) {
+      throw new Error('useCart must be used within CartProvider');
+    }
+    return context;
+  };
+```
+
+---
+
+# SECTION 4: STYLING RULES
+
+## File Pattern: `frontend/src/**/*.tsx`
+
+### Tailwind CSS Rules (MANDATORY)
+
+```yaml
+Tailwind CSS Rules:
+  - MUST use utility classes (NO custom CSS in .css files)
+  - MUST NOT use inline styles
+  - MUST follow mobile-first approach
+  - MUST use responsive prefixes: sm, md, lg, xl, 2xl
+  - MUST use color palette consistently
+  - MUST use spacing scale: 1, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64
+  - MUST NOT use arbitrary values except in special cases
+
+Mobile-First Example:
+  ✅ className="flex flex-col sm:flex-row sm:gap-4 md:gap-8"
+  ❌ className="flex-row gap-8"
+
+Color Usage:
+  ✅ className="bg-blue-500 text-white hover:bg-blue-600"
+  ❌ className="bg-#0066CC"
+  ❌ className="bg-custom-color"
+
+Spacing:
+  ✅ className="p-4 md:p-8"
+  ❌ className="p-7"
+  ❌ style={{ padding: '30px' }}
+
+Dark Mode:
+  ✅ className="bg-white dark:bg-gray-900"
+  ❌ className="bg-white"
+
+Loading States:
+  ✅ className="animate-pulse"
+  ❌ className="opacity-50"
+```
+
+---
+
+# SECTION 5: BACKEND API RULES
+
+## File Pattern: `backend/src/routes/**/*.ts` `backend/src/controllers/**/*.ts`
+
+### Route Definition Rules
+
+```yaml
+Route Pattern Rules:
+  - RESTful: GET, POST, PUT, PATCH, DELETE only
+  - Resource-based: /api/products, /api/orders, /api/users
+  - Hierarchical: /api/products/:id/reviews
+  - Query params for filtering: ?page=1&limit=20&category=men
+  - NO actions in URLs except special cases: /api/orders/:id/cancel
+
+Correct Examples:
+  ✅ GET /api/products
+  ✅ POST /api/products
+  ✅ GET /api/products/:id
+  ✅ PUT /api/products/:id
+  ✅ DELETE /api/products/:id
+  ✅ GET /api/products?category=men&price_min=100
+  ✅ POST /api/orders/:id/cancel (special action)
+
+Invalid Examples:
+  ❌ GET /api/getProducts
+  ❌ POST /api/addProduct
+  ❌ GET /api/getProductById/:id
+  ❌ DELETE /api/removeProduct
+```
+
+### Controller Rules
+
+```yaml
+File Pattern: `backend/src/controllers/**/*.ts`
+
+Controller Rules:
+  - MUST have explicit types for req, res
+  - MUST use try-catch for all async operations
+  - MUST validate input before processing
+  - MUST return consistent response format
+  - MUST NOT do business logic (delegate to services)
+  - MUST set appropriate status codes
+  - MUST include error handling
+
+Controller Example:
+  async function getProducts(req: Request, res: Response): Promise<void> {
+    try {
+      // Validate
+      const { page, limit } = req.query;
+      if (!page || !limit) {
+        res.status(400).json({ error: 'Missing parameters' });
+        return;
+      }
+
+      // Call service
+      const products = await productService.getProducts(+page, +limit);
+
+      // Respond
+      res.status(200).json({ success: true, data: products });
+    } catch (error) {
+      // Error handling
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+```
+
+### Service Layer Rules
+
+```yaml
+File Pattern: `backend/src/services/**/*.ts`
+
+Service Rules:
+  - MUST contain ALL business logic
+  - MUST NOT handle HTTP requests/responses
+  - MUST validate data before processing
+  - MUST handle database errors gracefully
+  - MUST return plain data (no Express types)
+  - MUST have explicit return types
+  - MUST throw custom errors
+
+Service Example:
+  export class ProductService {
+    async getProducts(page: number, limit: number): Promise<Product[]> {
+      // Validate
+      if (page < 1 || limit < 1) {
+        throw new ValidationError('Invalid pagination');
+      }
+
+      // Business logic
+      const products = await pb.collection('products')
+        .getList(page, limit);
+
+      return products;
+    }
+  }
+```
+
+---
+
+# SECTION 6: ERROR HANDLING RULES
+
+## File Pattern: `**/*.ts` `**/*.tsx`
+
+### Error Handling (MANDATORY - NO SILENT FAILURES)
+
+```yaml
+Error Handling Rules:
+  - MUST NOT use try-catch without handling error
+  - MUST NOT ignore promise rejections
+  - MUST NOT use console.error in production
+  - MUST throw custom error types
+  - MUST provide user-friendly error messages
+  - MUST log errors for debugging
+  - MUST differentiate error types
+
+Try-Catch Pattern:
+  ✅ try {
+    // Operation
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error('Unknown error');
+    logger.error('Operation failed:', err);
+    throw new ApiError('User-friendly message', 'ERROR_CODE');
+  }
+
+  ❌ try {
+    // Operation
+  } catch (e) {
+    // Silent failure
+  }
+
+Async/Await with Error:
+  ✅ try {
+    const data = await fetchData();
+  } catch (error) {
+    throw new ApiError('Failed to fetch', 'FETCH_FAILED');
+  }
+
+  ❌ async function fetch() {
+    return await fetchData(); // No error handling
+  }
+
+Custom Errors:
+  ✅ class ApiError extends Error {
+    constructor(
+      public message: string,
+      public code: string,
+      public statusCode: number = 500
+    ) {
+      super(message);
+    }
+  }
+
+  throw new ApiError('Not found', 'NOT_FOUND', 404);
+```
+
+### Frontend Error Handling
+
+```yaml
+File Pattern: `frontend/src/**/*.tsx`
+
+React Component Errors:
+  - MUST use ErrorBoundary component
+  - MUST show error UI to user
+  - MUST log errors for debugging
+  - MUST provide retry option
+
+Error Boundary Pattern:
+  if (error) {
+    return (
+      <div className="text-red-500">
+        <p>Something went wrong: {error.message}</p>
+        <button onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+Async Operation Errors:
+  const [error, setError] = useState<Error | null>(null);
+
+  const handleAction = async () => {
+    try {
+      setError(null);
+      await action();
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error('Unknown error');
+      setError(error);
+      showErrorToast(error.message);
+    }
+  };
+```
+
+---
+
+# SECTION 7: DATABASE RULES
+
+## File Pattern: `backend/src/**/*`
+
+### Pocketbase Database Rules
+
+```yaml
+Collection Design Rules:
+  - MUST have 'id' (auto UUID)
+  - MUST have 'created' (auto datetime)
+  - MUST have 'updated' (auto datetime)
+  - MUST use Relations not string IDs
+  - MUST normalize data (no duplication)
+  - MUST have constraints on required fields
+  - MUST have validation rules
+
+Example Collection:
+  Collection: products
+  Fields:
+    - id: UUID (auto)
+    - name: text (required, unique)
+    - description: editor
+    - category: relation → categories (required)
+    - price: number (required, min: 0)
+    - stock: number (required, min: 0)
+    - created: datetime (auto)
+    - updated: datetime (auto)
+
+Query Rules:
+  - MUST use `.getList()` for pagination
+  - MUST use `.getFirstListItem()` for single item search
+  - MUST use `.getOne()` for get by ID
+  - MUST include error handling
+  - MUST NOT fetch all records without limit
+
+Query Examples:
+  ✅ await pb.collection('products').getList(1, 20);
+  ✅ await pb.collection('products').getOne('id');
+  ✅ await pb.collection('products').getFirstListItem('slug = "xyz"');
+
+  ❌ await pb.collection('products').getFullList(); // No limit!
+  ❌ const all = await fetch all records in loop;
+```
+
+---
+
+# SECTION 8: TESTING RULES
+
+## File Pattern: `**/*.test.ts` `**/*.test.tsx` `**/*.spec.ts` `**/*.spec.tsx`
+
+### Testing Requirements
+
+```yaml
+Testing Rules:
+  - MUST write unit tests for utilities and services
+  - MUST write integration tests for API endpoints
+  - MUST write component tests with React Testing Library
+  - MUST have >80% code coverage
+  - MUST test error cases
+  - MUST test edge cases
+  - MUST NOT test implementation details
+
+Test File Structure:
+  - MUST be in `__tests__` directory or `.test.ts` suffix
+  - MUST describe what is being tested
+  - MUST use descriptive test names
+  - MUST be isolated (no dependencies between tests)
+
+Test Example:
+  describe('ProductCard', () => {
+    test('renders product name', () => {
+      render(<ProductCard product={mockProduct} />);
+      expect(screen.getByText('Product Name')).toBeInTheDocument();
+    });
+
+    test('calls onAddToCart when button clicked', () => {
+      const onAdd = jest.fn();
+      render(<ProductCard product={mockProduct} onAddToCart={onAdd} />);
+      fireEvent.click(screen.getByText('Add to Cart'));
+      expect(onAdd).toHaveBeenCalledWith(mockProduct);
+    });
+  });
+```
+
+---
+
+# SECTION 9: SECURITY RULES
+
+## File Pattern: `backend/src/**/*.ts` `frontend/src/**/*.tsx`
+
+### Security Rules (MANDATORY)
+
+```yaml
+Authentication:
+  - MUST use JWT tokens
+  - MUST NOT store passwords in plain text
+  - MUST use bcrypt for hashing (min 10 rounds)
+  - MUST validate tokens on protected routes
+  - MUST set token expiry (7 days for access, 30 for refresh)
+
+JWT Example:
+  ✅ const token = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
+
+Input Validation:
+  - MUST validate all user inputs
+  - MUST use Zod or similar for schema validation
+  - MUST check input types, length, format
+  - MUST sanitize data before storing
+
+Zod Example:
+  const LoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8).max(128)
+  });
+
+CORS:
+  - MUST specify exact origin (NOT '*')
+  - MUST use credentials: true for auth
+  - MUST specify allowed methods and headers
+
+CORS Example:
+  ✅ cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  })
+
+  ❌ cors() // Default allows all
+
+Rate Limiting:
+  - MUST limit login attempts (5 per 15 minutes)
+  - MUST limit API requests (100 per minute per IP)
+  - MUST use express-rate-limit
+
+Sensitive Data:
+  - MUST NOT expose passwords in responses
+  - MUST NOT expose API keys in frontend code
+  - MUST NOT log sensitive data
+  - MUST use environment variables for secrets
+
+Response:
+  ✅ const { password, ...user } = userData;
+  res.json(user);
+
+  ❌ res.json(userData); // Includes password!
+```
+
+---
+
+# SECTION 10: PERFORMANCE RULES
+
+## File Pattern: `frontend/src/**/*.tsx` `backend/src/**/*.ts`
+
+### Performance Optimization Rules
+
+```yaml
+Frontend Performance:
+  - MUST use code splitting with lazy()
+  - MUST memoize expensive components with memo()
+  - MUST use useCallback for event handlers
+  - MUST use useMemo for expensive computations
+  - MUST optimize images (lazy loading, srcSet)
+  - MUST use React DevTools Profiler
+  - MUST achieve Lighthouse score >90
+  - MUST analyze bundle size
+
+Code Splitting:
+  ✅ const Admin = lazy(() => import('./pages/Admin'));
+  <Suspense fallback={<Loading />}>
+    <Admin />
+  </Suspense>
+
+Memoization:
+  ✅ const MemoComponent = memo(Component);
+  ✅ const handleClick = useCallback(() => {}, []);
+  ✅ const total = useMemo(() => sum, [items]);
+
+Backend Performance:
+  - MUST use pagination (never fetch all)
+  - MUST optimize database queries
+  - MUST use caching (Redis or in-memory)
+  - MUST implement rate limiting
+  - MUST use connection pooling
+
+Pagination:
+  ✅ const products = await pb.collection('products')
+    .getList(1, 20);
+
+  ❌ const allProducts = await pb.collection('products')
+    .getFullList();
+
+Caching:
+  ✅ const cache = new Map();
+  if (cache.has(key) && !isExpired(cache.get(key))) {
+    return cache.get(key).data;
+  }
+
+  ❌ fetch data every time
+```
+
+---
+
+# SECTION 11: DOCUMENTATION RULES
+
+## File Pattern: `**/*.ts` `**/*.tsx`
+
+### Documentation Requirements
+
+```yaml
+JSDoc Comments (MANDATORY for public code):
+  - MUST document functions/components
+  - MUST include @param for each parameter
+  - MUST include @returns for return value
+  - MUST include description of purpose
+
+Function Example:
+  /**
+   * Calculates total price including tax
+   * @param items - Cart items array
+   * @param taxRate - Tax rate (default 0.18)
+   * @returns Total price rounded to 2 decimals
+   */
+  function calculateTotal(
+    items: CartItem[],
+    taxRate: number = 0.18
+  ): number {
+    // Implementation
+  }
+
+Component Example:
+  /**
+   * Displays product card with add-to-cart button
+   * @param product - Product to display
+   * @param onAddToCart - Callback when add to cart clicked
+   * @returns JSX.Element
+   */
+  export const ProductCard: React.FC<ProductCardProps> = ({
+    product,
+    onAddToCart
+  }) => {
+    // Implementation
+  }
+
+Inline Comments:
+  - MUST explain WHY, not WHAT
+  - MUST NOT be obvious
+  - MUST be kept up-to-date
+
+Good Comment:
+  ✅ // Cache for 5 minutes to reduce database load
+  const cache = new Map();
+
+Bad Comment:
+  ❌ // Set cache to map
+  const cache = new Map();
+```
+
+---
+
+# SECTION 12: GIT COMMIT RULES
+
+## File Pattern: Git Commits
+
+### Commit Message Convention (MANDATORY)
+
+```yaml
+Commit Format:
+  type(scope): description
+
+  body (optional)
+
+  footer (optional)
+
+Types:
+  - feat: New feature
+  - fix: Bug fix
+  - refactor: Code refactor
+  - style: Formatting (no code change)
+  - docs: Documentation
+  - test: Tests
+  - perf: Performance improvement
+  - ci: CI/CD changes
+  - chore: Maintenance
+
+Scopes:
+  - cart: Shopping cart
+  - product: Product management
+  - auth: Authentication
+  - api: Backend API
+  - ui: User interface
+  - db: Database
+  - config: Configuration
+
+Examples:
+  ✅ feat(cart): add item to cart with size selection
+  ✅ fix(product): fix image gallery zoom bug
+  ✅ refactor(auth): extract JWT validation to service
+  ✅ docs(readme): update installation instructions
+
+  ❌ Update code
+  ❌ Fixed bugs
+  ❌ Added features
+  ❌ WIP: working on cart
+```
+
+---
+
+# SECTION 13: ENVIRONMENT & CONFIGURATION RULES
+
+## File Pattern: `.env` `.env.example`
+
+### Environment Variables Rules
+
+```yaml
+Rules:
+  - MUST have .env.example in git (no secrets)
+  - MUST NOT commit .env files
+  - MUST use environment variables for all secrets
+  - MUST validate environment variables on startup
+  - MUST throw error if required variable missing
+  - MUST document all variables with comments
+
+.env.example:
+  # Frontend
+  VITE_API_URL=http://localhost:5000
+  VITE_POCKETBASE_URL=http://localhost:8090
+
+  # Backend
+  NODE_ENV=development
+  PORT=5000
+  POCKETBASE_URL=http://localhost:8090
+  JWT_SECRET=your-secret-key-here
+  API_TIMEOUT=30000
+
+Environment Variable Validation:
+  const requiredVars = ['JWT_SECRET', 'POCKETBASE_URL', 'PORT'];
+  requiredVars.forEach(variable => {
+    if (!process.env[variable]) {
+      throw new Error(`Missing environment variable: ${variable}`);
+    }
+  });
+
+Usage:
+  const API_URL = process.env.API_URL || 'http://localhost:5000';
+  const JWT_SECRET = process.env.JWT_SECRET!; // Non-null assertion
+```
+
+---
+
+# SECTION 14: BUILD & DEPLOYMENT RULES
+
+## File Pattern: Configuration Files
+
+### Build Configuration Rules
+
+```yaml
+TypeScript Build:
+  - MUST compile with no errors
+  - MUST pass `npm run type-check`
+  - MUST pass `npm run lint`
+  - MUST have source maps for debugging
+  - outDir: './dist'
+  - sourceMap: true
+
+Frontend Build:
+  - MUST run `npm run build`
+  - MUST produce optimized bundle
+  - MUST pass Lighthouse checks
+  - MUST be <500KB gzipped
+  - MUST work without JavaScript (graceful degradation)
+
+Backend Build:
+  - MUST compile TypeScript to JavaScript
+  - MUST copy non-TS files (env, migrations)
+  - MUST include dependencies (node_modules)
+  - MUST be ready for Docker deployment
+
+Docker Rules:
+  - MUST have Dockerfile
+  - MUST have .dockerignore
+  - MUST use multi-stage builds
+  - MUST NOT include .env files
+  - MUST NOT include node_modules
+
+Pre-deployment Checklist:
+  - [ ] All tests passing
+  - [ ] TypeScript compiling
+  - [ ] Linting passed
+  - [ ] No console.log statements
+  - [ ] Environment variables configured
+  - [ ] Database backed up
+  - [ ] Security reviewed
+  - [ ] Performance profiled
+```
+
+---
+
+# CURSOR AGENT CONFIGURATION
+
+## How to Use These Rules
+
+### For Cursor Agent:
+
+When creating new files or modifying code:
+
+1. **Check File Pattern**: Match against relevant patterns above
+2. **Apply All Rules**: Follow ALL rules for matched patterns
+3. **Enforce Strictness**: NO EXCEPTIONS to marked rules
+4. **Validate Before Output**: Ensure:
+   - TypeScript compiles
+   - No `any` types
+   - All functions typed
+   - Error handling present
+   - Security rules followed
+   - Tests written
+
+### Rules Priority
+
+**MANDATORY (Apply Always):**
+- TypeScript strict mode rules
+- Security rules
+- Error handling
+- Testing requirements
+
+**STRONGLY RECOMMENDED (Apply Unless Explicitly Waived):**
+- Performance rules
+- Documentation
+- File organization
+- Naming conventions
+
+**BEST PRACTICES (Apply When Possible):**
+- Code splitting
+- Memoization
+- Accessibility
+
+---
+
+# VALIDATION CHECKLIST FOR CURSOR
+
+Before submitting code, verify:
+
+```yaml
+TypeScript:
+  ☑️ No `any` types
+  ☑️ All parameters typed
+  ☑️ All returns typed
+  ☑️ Compiles with `npm run type-check`
+
+Code Quality:
+  ☑️ Passes `npm run lint`
+  ☑️ No console.log/debug statements
+  ☑️ No commented code
+  ☑️ Error handling for async
+
+React Components:
+  ☑️ Uses React.FC<Props>
+  ☑️ Has Props interface
+  ☑️ Has JSDoc comment
+  ☑️ Shows loading state
+  ☑️ Shows error state
+  ☑️ Is mobile responsive
+  ☑️ Has accessibility attributes
+
+Backend:
+  ☑️ Routes are RESTful
+  ☑️ Controllers have error handling
+  ☑️ Services handle validation
+  ☑️ Database queries paginated
+  ☑️ Auth middleware applied
+  ☑️ Response format consistent
+
+Security:
+  ☑️ No sensitive data in responses
+  ☑️ Input validation present
+  ☑️ Auth required where needed
+  ☑️ Rate limiting applied
+  ☑️ CORS configured
+
+Testing:
+  ☑️ Unit tests written
+  ☑️ Edge cases covered
+  ☑️ Error cases tested
+  ☑️ Tests pass locally
+
+Documentation:
+  ☑️ JSDoc for public functions
+  ☑️ README updated if needed
+  ☑️ Comments for complex logic
+
+Git:
+  ☑️ Commit message follows convention
+  ☑️ No secrets in commit
+  ☑️ Single responsibility per commit
+```
+
+---
+
+**Version:** 1.0  
+**Last Updated:** November 13, 2025  
+**For:** Cursor AI Development Agent  
+**Project:** Bewakoof Clone E-commerce Platform
+
+These rules ensure production-grade code quality. Follow them strictly.

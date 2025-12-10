@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Testing Guide - Mulary Ecommerce</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .status {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #fbbf24;
+        }
+        .step {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 3px solid #60a5fa;
+        }
+        .credential {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        .link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Mulary Testing Guide</h1>
+        <p class="subtitle">Manual testing instructions for all implemented features</p>
+        <div class="status">
+            <strong>✅ COMPLETED FEATURES:</strong>
+            <ul>
+                <li>Mock Authentication System (bypasses backend)</li>
+                <li>Wishlist Event Synchronization</li>
+                <li>Color-Synced Product Images</li>
+                <li>Token Persistence (Remember Me)</li>
+            </ul>
+        </div>
+        <div class="warning">
+            <strong>⚠️ NOTE:</strong> Backend server has 130+ TypeScript errors and is not running. 
+            Frontend is using mock authentication with data from <code>mockData.ts</code>.
+        </div>
+        <!-- Test 1: Admin Login -->
+        <div class="test-section">
+            <h2>🔐 Test 1: Admin Login</h2>
+            <p><strong>Purpose:</strong> Verify mock authentication works and admin can access dashboard</p>
+            
+            <div class="step">
+                <strong>Step 1:</strong> Navigate to login page<br>
+                <a href="http://localhost:5173/login" class="link" target="_blank">Open Login Page</a>
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Enter credentials<br>
+                Email: <span class="credential">admin@example.com</span><br>
+                Password: <span class="credential">admin123</span><br>
+                ✅ Check "Remember me"
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Click "Sign In" button
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Verify redirect to homepage (or dashboard)
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Navigate to Admin Dashboard<br>
+                <a href="http://localhost:5173/admin" class="link" target="_blank">Open Admin Dashboard</a>
+            </div>
+            <div class="success">
+                <strong>✅ Expected Result:</strong> Admin dashboard loads without "Access Denied" message
+            </div>
+        </div>
+        <!-- Test 2: Wishlist Functionality -->
+        <div class="test-section">
+            <h2>❤️ Test 2: Wishlist Functionality</h2>
+            <p><strong>Purpose:</strong> Verify wishlist buttons are visible and functional</p>
+            
+            <div class="step">
+                <strong>Step 1:</strong> Navigate to products page<br>
+                <a href="http://localhost:5173/products" class="link" target="_blank">Open Products Page</a>
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Find heart icon (❤️) on product cards<br>
+                Verify: Heart icons are visible on ALL product cards
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Click heart icon on a product<br>
+                Verify: Icon changes state (filled/unfilled)
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Navigate to wishlist page<br>
+                <a href="http://localhost:5173/wishlist" class="link" target="_blank">Open Wishlist Page</a>
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Verify product appears in wishlist
+            </div>
+            <div class="step">
+                <strong>Step 6:</strong> Remove product from wishlist page<br>
+                Verify: Product is removed instantly
+            </div>
+            <div class="success">
+                <strong>✅ Expected Result:</strong> Wishlist updates synchronize across all components without page reload
+            </div>
+        </div>
+        <!-- Test 3: Color Syncing -->
+        <div class="test-section">
+            <h2>🎨 Test 3: Product Images & Color Syncing</h2>
+            <p><strong>Purpose:</strong> Verify product images change with color selection</p>
+            
+            <div class="step">
+                <strong>Step 1:</strong> Click on any product card<br>
+                <a href="http://localhost:5173/products" class="link" target="_blank">Browse Products</a>
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> On product detail page, find color selection buttons
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Click different color options<br>
+                Verify: Product main image background color changes
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Observe the image container background<br>
+                Verify: Background has subtle tint matching selected color
+            </div>
+            <div class="success">
+                <strong>✅ Expected Result:</strong> Image background color syncs with selected color (8% opacity tint)
+            </div>
+        </div>
+        <!-- Test 4: Customer Login -->
+        <div class="test-section">
+            <h2>👤 Test 4: Customer Login</h2>
+            <p><strong>Purpose:</strong> Verify regular customer login works</p>
+            
+            <div class="step">
+                <strong>Step 1:</strong> Logout if currently logged in
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Navigate to login<br>
+                <a href="http://localhost:5173/login" class="link" target="_blank">Open Login Page</a>
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Enter customer credentials<br>
+                Email: <span class="credential">customer@example.com</span><br>
+                Password: <span class="credential">password123</span>
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Click "Sign In"
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Try to access admin dashboard<br>
+                <a href="http://localhost:5173/admin" class="link" target="_blank">Open Admin Dashboard</a>
+            </div>
+            <div class="success">
+                <strong>✅ Expected Result:</strong> Admin dashboard shows "Access Denied" message
+            </div>
+        </div>
+        <!-- Summary -->
+        <div class="test-section">
+            <h2>📊 Testing Summary</h2>
+            <p>After completing all tests, verify:</p>
+            <ul>
+                <li>✅ Admin can login and access dashboard</li>
+                <li>✅ Customer can login but NOT access admin dashboard</li>
+                <li>✅ Wishlist buttons are visible on product cards</li>
+                <li>✅ Wishlist updates synchronize across components</li>
+                <li>✅ Product image backgrounds change with color selection</li>
+                <li>✅ Tokens persist based on "Remember me" checkbox</li>
+            </ul>
+        </div>
+        <div class="warning">
+            <strong>🔧 Backend Status:</strong><br>
+            Backend server requires extensive TypeScript fixes (130+ compilation errors).<br>
+            This will be addressed in a dedicated overtime session.<br>
+            <strong>Current Mode:</strong> Frontend-only with mock data
+        </div>
+    </div>
+</body>
+</html>

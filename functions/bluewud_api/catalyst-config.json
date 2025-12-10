@@ -1,0 +1,11 @@
+{
+	"deployment": {
+		"name": "bluewud_api",
+		"stack": "node18",
+		"type": "basicio",
+		"env_variables": {}
+	},
+	"execution": {
+		"main": "index.js"
+	}
+}
